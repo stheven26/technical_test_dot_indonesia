@@ -3,6 +3,7 @@ package container
 import (
 	"technical-test/internal/domain/repository"
 	"technical-test/internal/interfaces/infra/mysql"
+	"technical-test/internal/interfaces/infra/redis"
 	"technical-test/internal/interfaces/infra/seeder"
 	"technical-test/internal/interfaces/usecase/class"
 	"technical-test/internal/interfaces/usecase/student"
@@ -30,11 +31,11 @@ func New() *Container {
 	//setup Repository
 	studentRepo := repository.NewStudentRepository(db)
 	classRepo := repository.NewClassRepository(db)
-	// redis := redis.NewRedisConnection().Setup()
+	redis := redis.NewRedisConnection().Setup()
 
 	//setup Service
-	studentService := student.NewService().SetStudentRepository(studentRepo).Validate()
-	classService := class.NewService().SetClassRepository(classRepo).Validate()
+	studentService := student.NewService().SetStudentRepository(studentRepo).SetRedis(redis).Validate()
+	classService := class.NewService().SetClassRepository(classRepo).SetRedis(redis).Validate()
 
 	//create student seeder
 	if err := seeder.CreateStudentSeeder(db); err != nil {

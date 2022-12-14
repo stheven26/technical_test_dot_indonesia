@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"technical-test/internal/domain/entity"
 	"technical-test/pkg/config"
 	"time"
@@ -25,12 +26,17 @@ func (r *redisWrapper) Setup() RedisWrapper {
 		"host":     loadEnv.GetString("REDIS_HOST"),
 		"username": loadEnv.GetString("REDIS_USERNAME"),
 		"password": loadEnv.GetString("REDIS_PASSWORD"),
+		"db":       loadEnv.GetString("REDIS_DB"),
+	}
+	db, err := strconv.Atoi(redisEnv["db"])
+	if err != nil {
+		fmt.Println(err)
 	}
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     redisEnv["host"],
 		Username: redisEnv["username"],
 		Password: redisEnv["password"],
-		DB:       loadEnv.GetInt("REDIS_DB"),
+		DB:       db,
 	})
 	r.redis = redisClient
 	return r

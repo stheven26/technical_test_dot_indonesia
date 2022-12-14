@@ -74,18 +74,18 @@ func (s *service) GetAll(ctx context.Context) (res StudentResponse, err error) {
 		log.Error(ctx, "getAllStudent error", err.Error())
 		return
 	}
-	// val := s.redis.GetAllStudent(ctx, constants.REDIS_STUDENT)
-	// if val == nil {
-	// 	err = s.redis.Set(ctx, constants.REDIS_STUDENT, 0, student)
-	// 	if err != nil {
-	// 		log.Error(ctx, "getRedisAllStudent error", err.Error())
-	// 		return
-	// 	}
-	// }
+	val := s.redis.GetAllStudent(ctx, constants.REDIS_STUDENT)
+	if val == nil {
+		err = s.redis.Set(ctx, constants.REDIS_STUDENT, 0, student)
+		if err != nil {
+			log.Error(ctx, "getRedisAllStudent error", err.Error())
+			return
+		}
+	}
 	res = StudentResponse{
 		Status:  constants.STATUS_SUCCESS,
 		Message: constants.MESSAGE_SUCCESS,
-		Data:    student,
+		Data:    val,
 	}
 	return
 }
