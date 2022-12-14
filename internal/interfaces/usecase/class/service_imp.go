@@ -34,9 +34,9 @@ func (s *service) Validate() *service {
 	if s.classRepository == nil {
 		panic("classRepository is nil")
 	}
-	// if s.redis == nil {
-	// 	panic("redis is nil")
-	// }
+	if s.redis == nil {
+		panic("redis is nil")
+	}
 	return s
 }
 

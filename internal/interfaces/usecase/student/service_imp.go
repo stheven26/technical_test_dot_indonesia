@@ -35,9 +35,9 @@ func (s *service) Validate() *service {
 	if s.studentRepository == nil {
 		panic("studentRepository is nil")
 	}
-	// if s.redis == nil {
-	// 	panic("redis is nil")
-	// }
+	if s.redis == nil {
+		panic("redis is nil")
+	}
 	return s
 }
 
@@ -133,6 +133,7 @@ func (s *service) UpdateById(ctx context.Context, id string, req StudentRequest)
 			Id:        entity.ID,
 			Name:      entity.Name,
 			Age:       entity.Age,
+			School:    entity.School,
 			Grade:     entity.Grade,
 			CreatedAt: entity.CreatedAt.Format(time.RFC3339),
 			UpdatedAt: entity.UpdatedAt.Format(time.RFC3339),
